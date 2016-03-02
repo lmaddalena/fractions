@@ -1,4 +1,4 @@
-Ansi C franctions mosile
+Ansi C franctions module
 ====================================================================
 by l.m.
 
