@@ -20,8 +20,8 @@ int main(int argc, char **argv)
     //f = fraction_create(2,1);   
     //printf("%i\\%i = %f \n", f.numerator, f.denominator, fraction_todouble(f));          
     
-    f = fraction_fromdouble(1.33333);
-    printf("%i\\%i = %f \n", f.numerator, f.denominator, fraction_todouble(f));
+    f = fraction_fromdouble(.125);
+    printf("%i\\%i = %10.9f \n", f.numerator, f.denominator, fraction_todouble(f));
       
     
     //mdump(stdout, &f, sizeof(t_fraction));

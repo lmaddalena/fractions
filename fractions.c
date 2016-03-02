@@ -1,5 +1,5 @@
 #include <math.h>
-#include <float.h>
+#include <limits.h>
 #include "fractions.h"
 
 //
@@ -31,68 +31,37 @@ t_fraction fraction_fromdouble(double d) {
     
     if(!fraction_isdecimal(d))
     {
-        f.numerator = (int)d;
+        f.numerator = (d > INT_MAX) ? INT_MAX : d;
         f.denominator = 1;
     }
     else
     {
-        int max = 10;
+        int max = 9;
         int m = 1;
        
         while(fraction_isdecimal(d) && max > 0)
         {
-            max--;
+            --max;
             m *= 10;
             d = d * 10.0;
-            
-            //printf("m=%i d=%f (int)d=%i\n", m, d, (int)d);
         }
-        
-        f.numerator = d;
+    
+        f.numerator = (d > INT_MAX) ? INT_MAX : d;
         f.denominator = m;
         
     }
     
-    return f;
-    
-        
-        
-};
-
-
-
-//
-// crea una funzione da un int
-//
-
-t_fraction fraction_fromint(int i) {
-    
+    return f;       
 };
 
 //
 // ritorna 1 se il numero è decimale, altrimenti 0
 // 
 int fraction_isdecimal(double d) {
-    
-    if((int)d == d)
-        return 0;
-    else
-        return 1;
-    /*  
-        
-    int s = 1;
-    
-    if(d < 0) 
-        s = -1;
-    
-    int i = fabs(d) * s;
 
-    double f = d - i;
-    printf("@@%Lf\n", f);
-    
-    if(f != 0.0)
+    if(d != floor(d))
         return 1;
     else
         return 0;
-    */  
+    
 }
