@@ -18,6 +18,13 @@ double fraction_todouble(t_fraction f) {
 t_fraction fraction_create(int num, int den) {
     
     t_fraction f;
+    
+    // fa in modo che il segno sia al numeratore
+    if(den < 0)
+    {
+        num = num * -1;
+        den = den * -1;
+    }
     f.numerator = num;
     f.denominator = den;
     
@@ -93,7 +100,7 @@ int fraction_gcd(int m, int n) {
     {
         int t = m;
         m = n;
-        m = t;
+        n = t;
     }
        
    int r;
@@ -103,7 +110,7 @@ int fraction_gcd(int m, int n) {
         r = m % n;
         if(r == 0)
         {
-            return n;            
+            return abs(n);            
         }
         else
         {
@@ -133,7 +140,8 @@ char *fraction_tostring(t_fraction f) {
     
     int i = fraction_digitcount(f.numerator);
     i = i + fraction_digitcount(f.denominator);
-        
+  
+    // cifre + sep + \0      
     char *c = (char *)malloc(i + 1 + 1);
     sprintf(c, "%i/%i", f.numerator, f.denominator);
     
@@ -141,12 +149,14 @@ char *fraction_tostring(t_fraction f) {
 }
 
 //
-// conta il numero di cifre che ha il numero (lo zero conta)
+// conta il numero di cifre che ha il numero compreso il segno (lo zero conta)
 //
 int fraction_digitcount(int a) {
     
     int i = 0;
     
+    if(a < 0)
+        i++;
     do
     {
         a /= 10;

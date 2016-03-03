@@ -17,11 +17,11 @@ int main(int argc, char **argv)
     printf("--------------\n");
     
     t_fraction f;
-    f = fraction_create(12981,231);   
+    f = fraction_create(12981,-231);   
     printf("%s = %f \n", fraction_tostring(f), fraction_todouble(f));          
     fraction_tostring(f);
     
-    f = fraction_fromdouble(.125);
+    f = fraction_fromdouble(-.125);
     
     printf("%s = %10.9f \n", fraction_tostring(f), fraction_todouble(f));          
          
