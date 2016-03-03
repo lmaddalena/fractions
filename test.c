@@ -17,15 +17,16 @@ int main(int argc, char **argv)
     printf("--------------\n");
     
     t_fraction f;
-    //f = fraction_create(2,1);   
-    //printf("%i\\%i = %f \n", f.numerator, f.denominator, fraction_todouble(f));          
+    f = fraction_create(12981,231);   
+    printf("%s = %f \n", fraction_tostring(f), fraction_todouble(f));          
+    fraction_tostring(f);
     
     f = fraction_fromdouble(.125);
-    printf("%i\\%i = %10.9f \n", f.numerator, f.denominator, fraction_todouble(f));
-      
     
+    printf("%s = %10.9f \n", fraction_tostring(f), fraction_todouble(f));          
+         
     //mdump(stdout, &f, sizeof(t_fraction));
-    
+    fraction_tostring(f);
 
     return 0;
 }

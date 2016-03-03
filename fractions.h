@@ -14,5 +14,8 @@ double fraction_todouble(t_fraction);
 t_fraction fraction_create(int num, int den);
 t_fraction fraction_fromdouble(double d);
 int fraction_isdecimal(double);
-
+int fraction_gcd(int, int);
+int fraction_lcm(int, int);
+void fraction_reduce(t_fraction *);
+char *fraction_tostring(t_fraction);
 #endif
