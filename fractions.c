@@ -138,12 +138,29 @@ char *fraction_tostring(t_fraction f) {
     
     int fraction_digitcount(int);
     
-    int i = fraction_digitcount(f.numerator);
-    i = i + fraction_digitcount(f.denominator);
-  
-    // cifre + sep + \0      
-    char *c = (char *)malloc(i + 1 + 1);
-    sprintf(c, "%i/%i", f.numerator, f.denominator);
+    int i = 0;
+    char *c = NULL;
+    
+    if(f.denominator == 1)
+    {
+        // conta le cifre
+        i = fraction_digitcount(f.numerator);
+   
+        // cifre + \0      
+        c = (char *)malloc(i + 1);
+        sprintf(c, "%i", f.numerator);
+        
+    }
+    else
+    {
+        // conta le cifre
+        i = fraction_digitcount(f.numerator);
+        i = i + fraction_digitcount(f.denominator);
+    
+        // cifre + sep + \0      
+        c = (char *)malloc(i + 1 + 1);
+        sprintf(c, "%i/%i", f.numerator, f.denominator);        
+    }
     
     return c;
 }
