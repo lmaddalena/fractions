@@ -21,11 +21,12 @@ int main(int argc, char **argv)
     t_fraction f2 = fraction_create(3,2);
     t_fraction f3 = fraction_parse("-2/3");          
     
-    printf("%s = %10.9f \n", fraction_tostring(f), fraction_todouble(f));
-    printf("%s = %10.9f \n", fraction_tostring(f1), fraction_todouble(f1));          
-    printf("%s = %10.9f \n", fraction_tostring(f2), fraction_todouble(f2));
-    printf("%s = %10.9f \n", fraction_tostring(f3), fraction_todouble(f3));
-
+    printf("fraction_create( 12981, -231 ) = %s \n", fraction_tostring(f));
+    printf("fraction_fromdouble( -.125 ) = %s \n", fraction_tostring(f1));
+    printf("fraction_create( 2, -3 ) = %s \n", fraction_tostring(f2));
+    printf("fraction_parse( \"-2/3\" ) = %s \n", fraction_tostring(f3));
+    
+    printf("\n");    
 
     printf("%s + %s = %s \n", fraction_tostring(f2), fraction_tostring(f3),fraction_tostring(fraction_sum(f2, f3)));
     printf("%s - %s = %s \n", fraction_tostring(f2), fraction_tostring(f3),fraction_tostring(fraction_sub(f2, f3)));
