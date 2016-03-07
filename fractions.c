@@ -1,6 +1,8 @@
 #include <stdio.h>
+#include <ctype.h>
 #include <math.h>
 #include <limits.h>
+#include <assert.h>
 #include "fractions.h"
 
 //
@@ -17,6 +19,8 @@ double fraction_todouble(t_fraction f) {
 //
 t_fraction fraction_create(int num, int den) {
     
+    assert(den != 0);
+    
     t_fraction f;
     
     // fa in modo che il segno sia al numeratore
@@ -29,7 +33,7 @@ t_fraction fraction_create(int num, int den) {
     f.denominator = den;
     
     // riduce ai minimi termini
-    fraction_reduce(&f);
+    //fraction_reduce(&f);
     
     return f;
 }
@@ -39,12 +43,13 @@ t_fraction fraction_create(int num, int den) {
 //
 t_fraction fraction_fromdouble(double d) {
     
-    t_fraction f;
-    
+    int num;
+    int den;
+       
     if(!fraction_isdecimal(d))
     {
-        f.numerator = (d > INT_MAX) ? INT_MAX : d;
-        f.denominator = 1;
+        num = (d > INT_MAX) ? INT_MAX : d;
+        den = 1;
     }
     else
     {
@@ -58,11 +63,14 @@ t_fraction fraction_fromdouble(double d) {
             d = d * 10.0;
         }
     
-        f.numerator = (d > INT_MAX) ? INT_MAX : d;
-        f.denominator = m;
+        num = (d > INT_MAX) ? INT_MAX : d;
+        den = m;
         
     }
     
+    // crea la fraszione
+    t_fraction f = fraction_create(num, den);
+
     // riduce ai minimi termini
     fraction_reduce(&f);
     
@@ -103,8 +111,8 @@ int fraction_gcd(int m, int n) {
         n = t;
     }
        
-   int r;
-
+    int r;
+  
     while(1)
     {
         r = m % n;
@@ -124,6 +132,8 @@ int fraction_gcd(int m, int n) {
 // riduce la frazione ai minimi termini
 //
 void fraction_reduce(t_fraction *f) {
+
+    assert(f->denominator != 0);
 
     int gcd = fraction_gcd(f->numerator, f->denominator);
     
@@ -181,5 +191,131 @@ int fraction_digitcount(int a) {
     } while (a != 0);
     
     return i;
+    
+}
+
+//
+// verifica che la stringa di input sia un numero
+// 
+int fraction_isnumeric(char *s) {
+    
+    if(*s == '-' || *s == '+')
+        s++;
+         
+     if(*s == '\0')
+        return 0;
+
+    char c = *s;
+    
+    if(c == '\0')
+        return 0;
+    
+    
+    while((c = *s++) != '\0')
+    {
+        if(isdigit(c) == 0)
+            return 0;        
+    }
+ 
+    return 1;
+ 
+}
+
+// 
+// Crea una frazione da una string
+//
+t_fraction fraction_parse(char *s) {
+    
+    char *p;
+    int idx = -1;
+    int num = 1;
+    int den = 1;
+        
+	// cerca il simbolo '/'
+	p = (char *)strchr(s, '/');
+
+	// calcola l'indice del simbolo '/'
+	if (p != NULL)
+		idx = p - s;
+   
+    if(idx == -1)
+    {
+
+        if(fraction_isnumeric(s))                
+            num = atoi(s);
+    }        
+    else
+    {
+		char buff[10];
+        
+        // numeratore 
+		strncpy(buff, s, idx);
+		buff[idx] = '\0';
+        if(fraction_isnumeric(buff))
+		  num = atoi(buff);
+            
+        // denominatore
+        strcpy(buff, s+idx+1);
+        if(fraction_isnumeric(buff))
+		  den = atoi(buff);        
+    }
+    
+    t_fraction f =  fraction_create(num, den);
+    return f;
+}
+
+//
+// somma le frazioni f1 e f2
+//
+t_fraction fraction_sum(t_fraction f1, t_fraction f2) {
+
+    assert(f1.denominator != 0);
+    assert(f2.denominator != 0);
+    
+    int lcm = fraction_lcm(f1.denominator, f2.denominator);    
+    int num = (f1.numerator * lcm / f1.denominator) + (f2.numerator * lcm / f2.denominator);   
+    
+    t_fraction f = fraction_create(num, lcm);
+    fraction_reduce(&f);
+    return f;
+    
+}
+
+//
+// sottrae le frazioni f1 e f2
+//
+t_fraction fraction_sub(t_fraction f1, t_fraction f2) {
+
+    assert(f1.denominator != 0);
+    assert(f2.denominator != 0);
+
+    int lcm = fraction_lcm(f1.denominator, f2.denominator);    
+    int num = (f1.numerator * lcm / f1.denominator) - (f2.numerator * lcm / f2.denominator);   
+    
+    t_fraction f = fraction_create(num, lcm);
+    fraction_reduce(&f);
+    return f;
+    
+}
+
+//
+// moltiplica le frazioni f1 e f2
+// 
+t_fraction fraction_mul(t_fraction f1, t_fraction f2) {
+  
+    t_fraction f = fraction_create(f1.numerator * f2.numerator, f1.denominator * f2.denominator);
+    fraction_reduce(&f);
+    return f;
+    
+}
+
+//
+// divide la frazione f1 per la frazione f2
+// 
+t_fraction fraction_div(t_fraction f1, t_fraction f2) {
+  
+    t_fraction f = fraction_create(f1.numerator * f2.denominator, f1.denominator * f2.numerator);
+    fraction_reduce(&f);
+    return f;
     
 }

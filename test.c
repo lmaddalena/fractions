@@ -17,15 +17,25 @@ int main(int argc, char **argv)
     printf("--------------\n");
     
     t_fraction f = fraction_create(12981,-231);
-    t_fraction f2 = fraction_create(4,2);
-       
-    printf("%s = %f \n", fraction_tostring(f), fraction_todouble(f));          
-    fraction_tostring(f);
+    t_fraction f1 = fraction_fromdouble(-.125);
+    t_fraction f2 = fraction_create(3,2);
+    t_fraction f3 = fraction_parse("-2/3");          
     
-    f = fraction_fromdouble(-.125);
+    printf("%s = %10.9f \n", fraction_tostring(f), fraction_todouble(f));
+    printf("%s = %10.9f \n", fraction_tostring(f1), fraction_todouble(f1));          
+    printf("%s = %10.9f \n", fraction_tostring(f2), fraction_todouble(f2));
+    printf("%s = %10.9f \n", fraction_tostring(f3), fraction_todouble(f3));
+
+
+    printf("%s + %s = %s \n", fraction_tostring(f2), fraction_tostring(f3),fraction_tostring(fraction_sum(f2, f3)));
+    printf("%s - %s = %s \n", fraction_tostring(f2), fraction_tostring(f3),fraction_tostring(fraction_sub(f2, f3)));
+    printf("%s * %s = %s \n", fraction_tostring(f2), fraction_tostring(f3),fraction_tostring(fraction_mul(f2, f3)));
+    printf("%s : %s = %s \n", fraction_tostring(f2), fraction_tostring(f3),fraction_tostring(fraction_div(f2, f3)));
     
-    printf("%s = %10.9f \n", fraction_tostring(f), fraction_todouble(f));          
-    printf("%s = %10.9f \n", fraction_tostring(f2), fraction_todouble(f2));         
+    printf("%s + %s + %s = %s \n", fraction_tostring(f1), fraction_tostring(f2), fraction_tostring(f3),fraction_tostring(
+        fraction_sum( fraction_sum(f2, f3), f1 )
+            ));
+                 
     //mdump(stdout, &f, sizeof(t_fraction));
     return 0;
 }

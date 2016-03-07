@@ -18,4 +18,10 @@ int fraction_gcd(int, int);
 int fraction_lcm(int, int);
 void fraction_reduce(t_fraction *);
 char *fraction_tostring(t_fraction);
+t_fraction fraction_parse(char *s);
+int fraction_isnumeric(char *s);
+t_fraction fraction_sum(t_fraction, t_fraction);
+t_fraction fraction_sub(t_fraction, t_fraction);
+t_fraction fraction_mul(t_fraction, t_fraction);
+t_fraction fraction_div(t_fraction, t_fraction);
 #endif
