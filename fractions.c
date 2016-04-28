@@ -68,7 +68,7 @@ t_fraction fraction_fromdouble(double d) {
         
     }
     
-    // crea la fraszione
+    // crea la frazione
     t_fraction f = fraction_create(num, den);
 
     // riduce ai minimi termini
